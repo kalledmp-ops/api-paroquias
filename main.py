@@ -1,10 +1,20 @@
 from fastapi import FastAPI, Query, HTTPException
 import pandas as pd
 import math
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI(
     title="API de Paróquias – Arquidiocese de São Paulo",
     version="0.1.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # MVP: permite qualquer origem
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # 🔹 Carrega CSV uma vez
