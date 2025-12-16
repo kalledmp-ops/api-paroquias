@@ -40,12 +40,6 @@ def haversine(lat1, lon1, lat2, lon2):
 def listar_paroquias():
     return df.fillna("").to_dict(orient="records")
 
-@app.get("/paroquias/{paroquia_id}")
-def detalhe_paroquia(paroquia_id: int):
-    if paroquia_id not in df["id"].values:
-        raise HTTPException(status_code=404, detail="Paróquia não encontrada")
-    return df[df["id"] == paroquia_id].iloc[0].to_dict()
-
 @app.get("/paroquias/proximas")
 def paroquias_proximas(
     lat: float = Query(...),
@@ -70,3 +64,12 @@ def paroquias_proximas(
 
     resultados.sort(key=lambda x: x["distancia_km"])
     return resultados
+
+
+@app.get("/paroquias/{paroquia_id}")
+def detalhe_paroquia(paroquia_id: int):
+    if paroquia_id not in df["id"].values:
+        raise HTTPException(status_code=404, detail="Paróquia não encontrada")
+
+    return df[df["id"] == paroquia_id].iloc[0].to_dict()
+
