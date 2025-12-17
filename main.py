@@ -58,7 +58,7 @@ def paroquias_proximas(
         dist = haversine(lat, lng, lat_p, lng_p)
 
         if dist <= raio_km:
-            item = row.to_dict()
+            item = row.fillna("").to_dict()
             item["distancia_km"] = round(dist, 2)
             resultados.append(item)
 
