@@ -49,13 +49,13 @@ def paroquias_proximas(
     resultados = []
 
     for _, row in df.iterrows():
-        if pd.isna(row["latitude"]) or pd.isna(row["longitude"]):
+        try:
+            lat_p = float(row["latitude"])
+            lng_p = float(row["longitude"])
+        except (ValueError, TypeError, KeyError):
             continue
 
-        dist = haversine(
-            lat, lng,
-            row["latitude"], row["longitude"]
-        )
+        dist = haversine(lat, lng, lat_p, lng_p)
 
         if dist <= raio_km:
             item = row.to_dict()
